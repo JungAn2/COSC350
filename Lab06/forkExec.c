@@ -17,41 +17,51 @@ int main(int argc, const char *argv[])
 	int Tp = atoi(argv[4]);
 
 	pid_t pid, pidc, pidp;
-	char message[100];
+	char message[50];
 	int n, s;
 	int exit_code;
 
 	printf("fork program starting\n");
-	pid = fork();
+	//Start fork
+	pid = vfork();
 	switch(pid) {
+		//Fail case
 		case -1:
 			perror("fork failed");
 			exit(1);
+		//Child case
 		case 0:
+			//gets child pid
 			pidc = getpid();
+			//Copy the message to message
 			sprintf(message, "This is the child with pid = %d", pidc);
-			if(execl("/mnt/linuxlab/home/ja67671/COSC350/Lab06/child", message, argv[1], argv[3]) < 0)
+			//Execute the file
+			if(execl("/mnt/linuxlab/home/ja67671/COSC350/Lab06/child", message, argv[1], argv[3], (char *)0) < 0)
 			{
 				perror("exec error\n");
 				exit(1);
 			}
 			break;
+		//Parent case
 		default:
 			pidp = getpid();
+			//Copy the message
 			sprintf(message, "This is the parent with pid = %d", pidp);
 			n = Np;
 			s = Tp;
 			exit_code = 0;
+			//Puts the message on the screen and sleep
 			for(; n > 0; n--){
 				puts(message);
 				sleep(s);
 			}
 			break;
 	}
+	//if parent
 	if(pid != 0) {
 		int stat_val;
 		pid_t child_pid;
-
+		//Get child status
 		child_pid = wait(&stat_val);
 
 		printf("Child has finished: PID = %d\n", child_pid);

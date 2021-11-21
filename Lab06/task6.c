@@ -6,6 +6,12 @@
 #define BUFFER_SIZE 1
 int main(int argc, char ** argv)
 {
+  //Check for number of argument
+  if(argc != 2)
+  {
+    perror("Need 1 argument");
+    exit(1);
+  }
   //Get the file name
   char *f_Name = argv[1];
   //File descriptor
@@ -20,32 +26,45 @@ int main(int argc, char ** argv)
   f_in = open(f_Name, O_RDONLY);
   //Get the end
   int end = lseek(f_in, 0, SEEK_END);
-  lseek(f_in, 0, SEEK_SET);
+  int offset = lseek(f_in, 0, SEEK_SET);
+  //Reset permission
+  umask(0000);
 
   //Fork
   pid = fork();
-  //parent
-  if(pid == 1)
+  if(pid == -1)
+  {
+    perror("fork error");
+    exit(1);
+  }
+
+  //child
+  else if(pid == 0)
     {
-      umask(0000);
-      f_out = open("parent.txt", O_WRONLY || O_CREAT, 0755); 
-      while(end > lseek(f_in, 0, SEEK_CUR)){
+      //Open up child file
+      f_out = open("child.txt", O_WRONLY | O_CREAT, 0755);
+      //read and write until end of the file
+      while(end > offset){      
       nread = read(f_in, buffer, BUFFER_SIZE);
-      if(buffer[0] >= '0' && buffer[0] <= '9')
-        write(f_out, buffer, nread); 
+      if(buffer[0] < '0' || buffer[0] > '9')
+        write(f_out, buffer, nread);
+      offset++;
       }
     }
-  //child
+
+   //parent
   else
     {
-      umask(0000);
-      f_out = open("child.txt", O_WRONLY || O_CREAT, 0755);
-      while(end > lseek(f_in, 0, SEEK_CUR)){      
+      //Open up parent file
+      f_out = open("parent.txt", O_WRONLY | O_CREAT, 0755); 
+      //Read and write until end of the file
+      while(end > offset){
       nread = read(f_in, buffer, BUFFER_SIZE);
-      if(buffer[0] < '0' && buffer[0] > 9)
-        write(f_out, buffer, nread);
+      if(buffer[0] >= '0' && buffer[0] <= '9' || buffer[0] == '\n')
+        write(f_out, buffer, nread); 
+      offset++;
       }
-    }
-  
+    } 
+
   exit(0);
 }
