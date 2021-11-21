@@ -4,9 +4,9 @@
 
 int main(int argc, char **argv)
 {
-  char *message = argv[1];
-  int Nc = atoi(argv[2]);
-  int Tc = atoi(argv[3]);
+  char *message = argv[0];
+  int Nc = atoi(argv[1]);
+  int Tc = atoi(argv[2]);
 
   int i = 0;
   for(; i < Nc; i++)
@@ -14,5 +14,5 @@ int main(int argc, char **argv)
     puts(message);
     sleep(Tc);
   }
-  exit(0);
+  exit(37);
 }

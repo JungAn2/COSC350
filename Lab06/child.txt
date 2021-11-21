@@ -1,0 +1,107 @@
+
+nhl
+ed <unistd..>
+#include <fcntl.h>
+#include <stdio.h>
+#include  <s;dl	/edadwieuti n ftefl
+	hl(n  fst{
+	lekfi,o rgc, chaa	i(ned=ra(_n ufr UFRSZ)<r umbb		err"ederr)
+		xt)
+	}c = )
+	{
+
+  '| ufr]>'d  arggment");
+		exit();
+	}
+	//GGt the file name
+	charr 	fNN	}e  argv[[	}
+	//ile descrrptor
+	int f__n, f_out;
+	//	_u  pn"aetrad
+	char buffeer[;
+	/edadwieutledo h iead	hl(n  fst{lu	lekfi,ofe,SE_E)
+	i(ned=ra(_n ufr UFRSZ)<fi
+	{	f		err"ederr)
+		xt)
+	}DO	i(ufr]> '& ufr]< '| ufr]= \'
+	{(f		f(rt(_u,bfe,ned)=)nt		
+		pro(Wieerr)
+		ei( =;
+	//Ress	ofe+;mi	
+}
+i(i =){();
+
+	//Fook
+	pid = ff	r();
+	if(pid === 	rnf"hl a iihd I  ok error");
+		exit();
+	}
+
+	//child
+	else if(pid == )
+	{
+		removv	pit(Cidtriae bomlyn)
+}n ei(ch;
+
+ file
+		f_out = open("child.txt", O_WRONLY | O_CREAT, );
+		//read and write until end of the file
+		while(end > offset){ 
+			lseek(f_in, offset, SEEK_SET);
+			if((nread = read(f_in, buffer, BUFFER_SIZE))<)
+			{
+				perror("Read error");
+				exit();
+			}
+			if(buffer[] < '' || buffer[] > '')
+			{
+				if((write(f_out, buffer, nread))==-)
+				{
+					perror("Write error");
+					exit();
+
+				}
+			}
+			offset++;
+
+		}
+	}
+	//parent
+	else
+	{
+		remove("parent.txt");
+		//Open up parent file
+		f_out = open("parent.txt", O_WRONLY | O_CREAT, ); 
+		//Read and write until end of the file
+		while(end > offset){
+			lseek(f_in, offset, SEEK_SET);
+			if((nread = read(f_in, buffer, BUFFER_SIZE))<)
+			{
+				perror("Read error");
+				exit();
+			}
+			if(buffer[] >= '' && buffer[] <= '' || buffer[] == '\n')
+			{
+				if((write(f_out, buffer, nread))==-)
+				{
+					perror("Write error");
+					exit();
+				} 
+			}
+			offset++;
+		}
+	} 
+	if(pid != ) {
+		int stat_val;
+		pid_t child_pid;
+
+		child_pid = wait(&stat_val);
+
+		printf("Child has finished: PID = %d\n", child_pid);
+		if (WIFEXITED (stat_val))
+			printf("Child exited with code %d\n", WEXITSTATUS(stat_val));
+		else
+			printf("Child terminated abnormally\n");
+	}
+	exit();
+}
